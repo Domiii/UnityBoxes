@@ -3,6 +3,7 @@ using System.Collections;
 
 public class WASDClickToShootPlayerControl : PlayerControlBase {
 	public float speed = 8;
+	bool mouseDown;
 
 	public bool IsOnNavMesh(out NavMeshHit hit) {
 		return NavMesh.Raycast (transform.position, transform.position + Vector3.down * 100, out hit, NavMesh.AllAreas);
@@ -46,12 +47,14 @@ public class WASDClickToShootPlayerControl : PlayerControlBase {
 	void CheckClick() {
 		if (Input.GetMouseButtonDown (0)) {
 			HandleMouse (true);
-		} else if (Input.GetMouseButtonUp (0)) {
-			// idle
-			NextAction = Strategies.IdleAction.Default;
+			mouseDown = true;
 		} else if (Input.GetMouseButton (0)) {
 			HandleMouse (false);
-		}
+		} else if (mouseDown) {
+			// idle
+			mouseDown = false;
+			NextAction = Strategies.IdleAction.Default;
+		} 
 	}
 
 	void HandleMouse(bool clicked) {

@@ -2,9 +2,6 @@
 using System.Collections;
 
 public class Unit : MonoBehaviour {
-	void Start() {
-	}
-
 	#region Life, Health + Death
 	public float MaxHealth = 100;
 	public float Health = 100;

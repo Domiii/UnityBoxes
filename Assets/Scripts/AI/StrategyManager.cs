@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// Provides Action <-> Strategy Mapping
 /// </summary>
 public class StrategyManager : UnityEngine.MonoBehaviour {
-	[UnityEngine.Multiline]
+	//[UnityEngine.Multiline]
 	//public string strategies = "hi\nworld";
 
 	static Type[] strategyTypes;
@@ -25,17 +25,20 @@ public class StrategyManager : UnityEngine.MonoBehaviour {
 		RegisterAllStrategies (Assembly.GetExecutingAssembly());
 	}
 
-	static void RegisterAllStrategies(Assembly assembly) {
-		strategyTypes = assembly.GetTypes ().Where(t => t.IsSubclassOf(typeof(AIStrategy)) && !t.IsAbstract).ToArray();
+	static Type GetActionType(Type t) {
+		var baseType = t.BaseType;
+		if (baseType.GetGenericArguments().Length != 1 || !baseType.GetGenericArguments()[0].IsSubclassOf(typeof(AIAction))) {
+			UnityEngine.Debug.LogError("Invalid Strategy definition does not inherit from AIStrategy<AIAction>: " + t.FullName);
+			return null;
+		}
+		return baseType.GetGenericArguments()[0];
+		
+	}
 
-		strategyTypesByActionType = strategyTypes.ToDictionary(s => {
-			var baseType = s.BaseType;
-			if (baseType.GetGenericArguments().Length != 1 || !baseType.GetGenericArguments()[0].IsSubclassOf(typeof(AIAction))) {
-				UnityEngine.Debug.LogError("Invalid Strategy definition does not inherit from AIStrategy<AIAction>: " + s.FullName);
-				return null;
-			}
-			return baseType.GetGenericArguments()[0];
-		});
+	static void RegisterAllStrategies(Assembly assembly) {
+		strategyTypes = assembly.GetTypes ().Where(t => t.IsSubclassOf(typeof(AIStrategy)) && !t.IsAbstract && GetActionType(t) != null).ToArray();
+
+		strategyTypesByActionType = strategyTypes.ToDictionary<Type, Type>(GetActionType);
 	}
 
 	public static Type GetStrategyTypeForAction(AIAction action) {

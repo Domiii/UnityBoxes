@@ -1,29 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-
-/// <summary>
-/// 用 Input 來控制 Player 的 行為
-/// </summary>
-public class PlayerControl : BehaviorController {
+public class ClickPlayerControl : PlayerControlBase {
 	bool isMoving;
-
-	public AIAction NextAction {
-		get;
-		private set;
-	}
-
-	/// <summary>
-	/// Get player's intended action and resets NextAction, indicating that the action has been handled.
-	/// </summary>
-	public override AIAction PopAction() {
-		if (NextAction != null) {
-			var action = NextAction;
-			NextAction = null;
-			return action;
-		}
-		return null;
-	}
 
 	void Update()
 	{
@@ -47,11 +26,11 @@ public class PlayerControl : BehaviorController {
 		RaycastHit hit;
 		if (Physics.Raycast(screenRay, out hit))
 		{
-			HandleCursorRay (hit, clicked);
+			HuntOrMoveToDestination (hit, clicked);
 		}
 	}
 
-	void HandleCursorRay (RaycastHit hit, bool clicked)
+	void HuntOrMoveToDestination (RaycastHit hit, bool clicked)
 	{
 		NextAction = null;
 		isMoving = false;

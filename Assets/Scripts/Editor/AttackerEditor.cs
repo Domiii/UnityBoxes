@@ -4,12 +4,12 @@ using UnityEditor;
 /// <summary>
 /// Draws the attack radius of Attacker in editor (assuming y is up in world space)
 /// </summary>
-[CustomEditor( typeof( Attacker ) )]
+[CustomEditor( typeof( UnitAttacker ) )]
 public class AttackerEditor : Editor
 {
 	void OnSceneGUI( )
 	{
-		var t = (Attacker)target;
+		var t = (UnitAttacker)target;
 		var mesh = t.GetComponent<MeshRenderer>();
 
 		var pos = t.transform.position;

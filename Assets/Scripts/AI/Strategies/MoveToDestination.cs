@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Behaviors {
+namespace Strategies {
+	public class MoveToDestinationAction : AIAction {
+		public Vector3 destination;
+	}
+
 	/// <summary>
 	/// Move to destination, don't let anything distract you from that.
 	/// </summary>
 	[RequireComponent(typeof(NavMeshMover))]
-	public class MoveToPosition : AIBehavior {
+	public class MoveToDestination : AIStrategy<MoveToDestinationAction> {
 		NavMeshMover mover;
 
 		void Awake () {
@@ -20,15 +24,15 @@ namespace Behaviors {
 			}
 		}
 
-		public void StartBehavior(Vector3 pos) {
-			mover.CurrentDestination = pos;
+		public override void StartBehavior(MoveToDestinationAction action) {
+			mover.CurrentDestination = action.destination;
 			mover.StopMovingAtDestination = true;
 		}
 		#endregion
 
 		void Update () {
 			if (mover.HasArrived) {
-				StopBehavior ();
+				StopStrategy ();
 			}
 		}
 

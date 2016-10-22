@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Attacker : Actuator {
+public class Attacker : MonoBehaviour {
 	public GameObject BulletPrefab;
 	public float AttackDelay = 1;
 	public float AttackRadius = 30.0f;
@@ -237,7 +237,7 @@ public class Attacker : Actuator {
 		var rigidbody = bulletObj.GetComponent<Rigidbody> ();
 		var direction = target.transform.position - bulletObj.transform.position;
 		direction.Normalize ();
-		rigidbody.velocity = direction * bullet.Speed;
+		rigidbody.velocity = direction * bullet.speed;
 
 		// reset shoot time
 		lastShotTime = Time.time;

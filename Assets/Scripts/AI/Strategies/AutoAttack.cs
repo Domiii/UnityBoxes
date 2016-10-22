@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Behaviors {
+namespace Strategies {
+	public class AutoAttackAction : AIAction {
+		public Unit target;
+	}
+	
 	/// <summary>
 	/// Stand still. Scan for attackable targets in range and attack when found.
 	/// </summary>
 	[RequireComponent(typeof(Attacker))]
-	public class AutoAttack : AIBehavior {
+	public class AutoAttack : AIStrategy<AutoAttackAction> {
 		Attacker attacker;
 
 		void Awake () {

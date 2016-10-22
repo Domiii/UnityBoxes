@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Behaviors {
+namespace Strategies {
+	public class HuntTargetAction : AIAction {
+		public Unit target;
+	}
+
 	/// <summary>
 	/// Attack when close enough; else move and catch up
 	/// </summary>
 	[RequireComponent(typeof(Attacker))]
 	[RequireComponent(typeof(NavMeshMover))]
-	public class HuntTarget : AIBehavior {
+	public class HuntTarget : AIStrategy<HuntTargetAction> {
 		Attacker attacker;
 		NavMeshMover mover;
 
@@ -18,8 +22,8 @@ namespace Behaviors {
 			}
 		}
 
-		public void StartBehavior(Unit target) {
-			attacker.CurrentTarget = target;
+		public override void StartBehavior(HuntTargetAction action) {
+			attacker.CurrentTarget = action.target;
 			mover.StopMovingAtDestination = false;
 		}
 		#endregion
@@ -44,7 +48,7 @@ namespace Behaviors {
 			}
 			else {
 				// we have no more valid target (target might have died, disappeared, turned etc) -> done!
-				StopBehavior();
+				StopStrategy();
 			}
 		}
 

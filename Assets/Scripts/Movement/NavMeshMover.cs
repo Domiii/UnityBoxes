@@ -3,7 +3,7 @@ using System.Collections;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class NavMeshMover : Actuator {
+public class NavMeshMover : MonoBehaviour {
 	protected NavMeshAgent agent;
 
 	bool isMoving;
@@ -27,13 +27,13 @@ public class NavMeshMover : Actuator {
 	public Vector3 CurrentDestination {
 		get { return agent.destination; }
 		set {
+			// update position
+			agent.SetDestination (value);
+
 			if (!isMoving) {
 				// start moving!
 				StartMove();
 			}
-
-			// update position
-			agent.SetDestination (value);
 
 			//print (string.Join(", ", new []{ agent.pathStatus.ToString (), agent.remainingDistance.ToString () }));
 		}

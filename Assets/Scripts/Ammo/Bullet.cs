@@ -3,9 +3,10 @@ using System.Collections;
 
 [RequireComponent(typeof(ProjectileCollisionTrigger))]
 public class Bullet : MonoBehaviour {
-	public float DamageMin = 10;
-	public float DamageMax = 20;
-	public float Speed = 10;
+	public float damageMin = 10;
+	public float damageMax = 20;
+	public float speed = 10;
+	public bool destroyOnCollision = false;
 
 	bool isDestroyed = false;
 
@@ -21,15 +22,27 @@ public class Bullet : MonoBehaviour {
 		if (!isDestroyed && target != null) {
 			// when colliding with Unit -> Check if we can attack the Unit
 			if (target.CanBeAttacked && FactionManager.AreHostile (gameObject, target.gameObject)) {
-				// damage the unit!
-				//var damageInfo = ObjectManager.Instance.Obtain<DamageInfo> ();
-				var damageInfo = new DamageInfo ();
-				damageInfo.Value = Random.Range (DamageMin, DamageMax);
-				damageInfo.SourceFactionType = FactionManager.GetFactionType (gameObject);
-				target.Damage (damageInfo);
-				Destroy (gameObject);
-				isDestroyed = true;
+				DamageTarget (target);
 			}
 		}
+		else if (destroyOnCollision) {
+			// hit something that is not an enemy unit -> Destroy anyway
+			DestroyThis ();
+		}
+	}
+
+	void DamageTarget(Unit target) {
+		// damage the unit!
+		//var damageInfo = ObjectManager.Instance.Obtain<DamageInfo> ();
+		var damageInfo = new DamageInfo ();
+		damageInfo.Value = Random.Range (damageMin, damageMax);
+		damageInfo.SourceFactionType = FactionManager.GetFactionType (gameObject);
+		target.Damage (damageInfo);
+		DestroyThis ();
+	}
+
+	void DestroyThis() {
+		Destroy (gameObject);
+		isDestroyed = true;
 	}
 }

@@ -37,7 +37,7 @@ namespace Strategies {
 			return false;
 		}
 
-		protected override void Cleanup () {
+		protected override void OnStop () {
 			attacker.StopAttack ();
 		}
 

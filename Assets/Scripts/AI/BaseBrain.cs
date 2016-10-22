@@ -49,7 +49,7 @@ public class BaseBrain : MonoBehaviour {
 			if (currentStrategy != value) {
 //				if (value != null) {
 //					print ("New behavior: " + value.GetType().Name);
-//				}
+       //				}
 
 				// behavior has changed: disable all behaviors and enable new behavior
 				strategies.ForEach (b => b.enabled = false);
@@ -97,6 +97,10 @@ public class BaseBrain : MonoBehaviour {
 
 	protected virtual void StartStrategy(AIAction action) {
 		var strategy = GetOrCreateStrategyForAction(action);
+
+		if (currentStrategy != null && currentStrategy != strategy) {
+			currentStrategy.StopStrategy ();
+		}
 		CurrentStrategy = strategy;
 		strategy.StartStrategy (action);
 	}

@@ -26,7 +26,7 @@ public class AIStrategy : MonoBehaviour {
 
 	public void StopStrategy() {
 		NotifyFinished ();
-		Cleanup ();
+		OnStop ();
 	}
 
 	protected void NotifyFinished() {
@@ -35,6 +35,6 @@ public class AIStrategy : MonoBehaviour {
 		}
 	}
 
-	protected virtual void Cleanup() {
+	protected virtual void OnStop() {
 	}
 }

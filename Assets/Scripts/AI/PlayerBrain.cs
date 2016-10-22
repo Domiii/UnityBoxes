@@ -5,7 +5,8 @@ public class PlayerBrain : BaseBrain {
 	void Awake () {
 		AddStrategy<Strategies.Idle> ();
 		//AddStrategy<Strategies.HuntTarget> ();
-		AddStrategy<Strategies.MoveToDestination> ();
+
+		AddStrategy<Strategies.ShootInDirection> ();
 
 		// AutoAttack is the default strategy
 		SetDefaultStrategy<Strategies.Idle>();

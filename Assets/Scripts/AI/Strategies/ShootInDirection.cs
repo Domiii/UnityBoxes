@@ -6,9 +6,22 @@ namespace Strategies {
 		public Vector3 destination;
 	}
 
-	public class ShootInDirection : MonoBehaviour {
-		void Update () {
-		
+	[RequireComponent(typeof(Shooter))]
+	public class ShootInDirection : AIStrategy<ShootInDirectionAction> {
+		Shooter shooter;
+
+		void Awake() {
+			shooter = GetComponent<Shooter> ();
+		}
+
+		public override void StartBehavior (ShootInDirectionAction action)
+		{
+			shooter.StartShootingAt (action.destination);
+		}
+
+		protected override void OnStop ()
+		{
+			shooter.StopShooting ();
 		}
 	}
 

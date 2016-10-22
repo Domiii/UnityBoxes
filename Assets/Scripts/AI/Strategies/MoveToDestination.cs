@@ -39,7 +39,7 @@ namespace Strategies {
 		/// <summary>
 		/// Called when finished moving.
 		/// </summary>
-		protected override void Cleanup() {
+		protected override void OnStop() {
 			mover.StopMove ();
 		}
 	}

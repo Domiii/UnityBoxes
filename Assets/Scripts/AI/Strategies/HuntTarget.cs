@@ -55,7 +55,7 @@ namespace Strategies {
 		/// <summary>
 		/// Called when finished hunting.
 		/// </summary>
-		protected override void Cleanup() {
+		protected override void OnStop() {
 			attacker.StopAttack();
 			mover.StopMove ();
 		}

@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Tracked : MonoBehaviour {
-	Renderer rend;
 
 	public bool IsOnCamera {
 		get;
@@ -20,7 +19,6 @@ public class Tracked : MonoBehaviour {
 	}
 
 	void Start() {
-		rend = GetComponent<Renderer>();
 		UpdateTrackStatus (true);
 	}
 

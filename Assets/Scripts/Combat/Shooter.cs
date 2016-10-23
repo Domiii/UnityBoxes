@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class Shooter : MonoBehaviour {
-	public Bullet BulletPrefab;
-	public float AttackDelay = 1;
+	public WeaponConfig weapon = new WeaponConfig();
 	public float turnSpeed = 1000.0f;
 	public Transform shootTransform;
 
@@ -45,8 +44,12 @@ public class Shooter : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		if (BulletPrefab == null) {
-			Debug.LogError("Attacker is missing Bullet Prefab", this);
+		if (weapon == null) {
+			print("Shooter is missing Weapon");
+			return;
+		}
+		if (weapon.bulletPrefab == null) {
+			print("Shooter's Weapon is missing Bullet Prefab");
 			return;
 		}
 
@@ -67,7 +70,7 @@ public class Shooter : MonoBehaviour {
 
 			// keep shooting
 			var delay = Time.time - lastShotTime;
-			if (delay < AttackDelay) {
+			if (delay < weapon.attackDelay) {
 				// still on cooldown
 				return;
 			}
@@ -77,6 +80,10 @@ public class Shooter : MonoBehaviour {
 
 	Quaternion GetRotationToward(Vector3 target) {
 		Vector3 dir = target - shootTransform.position;
+		return GetRotationFromDirection(dir);
+	}
+
+	Quaternion GetRotationFromDirection(Vector3 dir) {
 		var angle = Mathf.Atan2 (dir.x, dir.z) * Mathf.Rad2Deg;
 		return Quaternion.AngleAxis(angle, Vector3.up);
 	}
@@ -102,25 +109,46 @@ public class Shooter : MonoBehaviour {
 	}
 
 	public void ShootAt(Vector3 target) {
-		if (BulletPrefab == null) {
+		if (weapon == null || weapon.bulletPrefab == null) {
 			return;
 		}
 
+		if (weapon.bulletCount > 1) {
+			// shoot N bullets in a cone from -coneAngle/2 to +coneAngle/2
+			var dir = target - transform.position;
+			dir.Normalize ();
+			dir = Quaternion.Euler (0, -weapon.ConeAngle / 2, 0) * dir;
+
+			var deltaAngle = weapon.ConeAngle / (weapon.bulletCount-1);
+
+			for (var i = 0; i < weapon.bulletCount; ++i) {
+				//dir.Normalize ();
+				ShootBullet (dir);
+				dir = Quaternion.Euler (0, deltaAngle, 0) * dir;
+
+			}
+		} else {
+			// just one bullet straight forward
+			ShootBullet (shootTransform.forward);
+		}
+
+		// reset shoot time
+		lastShotTime = Time.time;
+	}
+
+	void ShootBullet(Vector3 dir) {
 		// create a new bullet
-		var bullet = (Bullet)Instantiate(BulletPrefab, transform.position, GetRotationToward(target));
+		var bullet = (Bullet)Instantiate(weapon.bulletPrefab, transform.position, GetRotationFromDirection(dir));
 
 		// set bullet faction
 		FactionManager.SetFaction (bullet.gameObject, gameObject);
 
 		// set velocity
 		var rigidbody = bullet.GetComponent<Rigidbody> ();
-		var direction = target - bullet.transform.position;
-		direction.Normalize ();
-		rigidbody.velocity = direction * bullet.speed;
+		rigidbody.velocity = dir * bullet.speed;
 		bullet.owner = gameObject;
-
-		// reset shoot time
-		lastShotTime = Time.time;
+		bullet.damageMin = weapon.damageMin;
+		bullet.damageMax = weapon.damageMax;
 	}
 
 	void OnDeath(DamageInfo damageInfo) {

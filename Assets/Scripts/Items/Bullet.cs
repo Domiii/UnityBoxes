@@ -4,10 +4,13 @@ using System.Collections;
 [RequireComponent(typeof(ProjectileCollisionTrigger))]
 public class Bullet : MonoBehaviour {
 	public GameObject owner;
-	public float damageMin = 10;
-	public float damageMax = 20;
 	public float speed = 10;
 	public bool destroyOnCollision = false;
+
+	[HideInInspector]
+	public float damageMin;
+	[HideInInspector]
+	public float damageMax;
 
 	bool isDestroyed = false;
 
@@ -26,7 +29,7 @@ public class Bullet : MonoBehaviour {
 				DamageTarget (target);
 			}
 		}
-		else if (col.gameObject != owner && destroyOnCollision) {
+		else if (col.gameObject != owner && col.GetComponent<Bullet>() == null && col.GetComponentInParent<Bullet>() == null && destroyOnCollision) {
 			// hit something that is not an enemy unit -> Destroy anyway
 			DestroyThis ();
 		}

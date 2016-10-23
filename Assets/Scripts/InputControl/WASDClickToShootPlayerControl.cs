@@ -19,7 +19,7 @@ public class WASDClickToShootPlayerControl : PlayerControlBase {
 
 	void Move() {
 		MoveByInput();
-		PlaceOnNavMesh ();
+		//PlaceOnNavMesh ();
 	}
 
 	void MoveByInput() {

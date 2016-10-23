@@ -31,12 +31,16 @@ public class Tracked : MonoBehaviour {
 		var wasOncamera = IsOnCamera;
 		IsOnCamera = Mathf.Clamp (ViewportPoint.x, 0, 1) == ViewportPoint.x && Mathf.Clamp (ViewportPoint.y, 0, 1) == ViewportPoint.y && ViewportPoint.z >= 0;
 		if (force || IsOnCamera != wasOncamera) {
-			ObjectTracker.Instance.UpdateTrackStatus (this);
+			if (ObjectTracker.Instance != null) {
+				ObjectTracker.Instance.UpdateTrackStatus (this);
+			}
 		}
 	}
 
 	void OnDeath(DamageInfo damageInfo) {
-		ObjectTracker.Instance.StopTracking(this);
+		if (ObjectTracker.Instance != null) {
+			ObjectTracker.Instance.StopTracking (this);
+		}
 	}
 
 }

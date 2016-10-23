@@ -42,9 +42,7 @@ public class ProjectileCollisionTrigger : MonoBehaviour {
 	/// If set to anything in between, this object will lose some velocity and transfer the corresponding momentum onto every collided object.
 	/// </summary>
 	public float momentumTransferFraction = 0;
-	
-	private float minimumExtent;
-	private float sqrMinimumExtent;
+
 	private Vector3 previousPosition;
 	private Rigidbody myRigidbody;
 	private Collider myCollider;
@@ -63,8 +61,6 @@ public class ProjectileCollisionTrigger : MonoBehaviour {
 		}
 
 		previousPosition = myRigidbody.transform.position;
-		minimumExtent = Mathf.Min(myCollider.bounds.extents.x, myCollider.bounds.extents.y);
-		sqrMinimumExtent = minimumExtent * minimumExtent;
 	}
 	
 	void FixedUpdate()
@@ -74,7 +70,7 @@ public class ProjectileCollisionTrigger : MonoBehaviour {
 		var movementThisStep = transform.position - previousPosition;
 		float movementSqrMagnitude = movementThisStep.sqrMagnitude;
 		
-		//if (movementSqrMagnitude > sqrMinimumExtent) {
+		if (movementSqrMagnitude > float.Epsilon) {
 			float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
 			
 			//check for obstructions we might have missed 
@@ -105,17 +101,25 @@ public class ProjectileCollisionTrigger : MonoBehaviour {
 					// move this object to point of collision
 					transform.position = hitInfo.point;
 
-					// send hit messages
-					if (((int)triggerTarget & (int)TriggerTarget.Other) != 0 && hitInfo.collider.isTrigger) {
-						hitInfo.collider.SendMessage(MessageName, myCollider, SendMessageOptions.DontRequireReceiver);
-					}
-					if (((int)triggerTarget & (int)TriggerTarget.Self) != 0) {
-						SendMessage(MessageName, hitInfo.collider, SendMessageOptions.DontRequireReceiver);
-					}
+					SendMessages (hitInfo.collider);
 				}
 			}
-		//}
+		}
 
 		previousPosition = transform.position = origPosition;
+	}
+
+	void OnTriggerEnter(Collider collider) {
+		SendMessages (collider);
+	}
+
+	void SendMessages(Collider otherCollider) {
+		// send hit messages
+		if (((int)triggerTarget & (int)TriggerTarget.Other) != 0) {
+			otherCollider.SendMessage(MessageName, myCollider, SendMessageOptions.DontRequireReceiver);
+		}
+		if (((int)triggerTarget & (int)TriggerTarget.Self) != 0) {
+			SendMessage(MessageName, otherCollider, SendMessageOptions.DontRequireReceiver);
+		}
 	}
 }

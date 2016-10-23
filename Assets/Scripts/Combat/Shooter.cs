@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Shooter : MonoBehaviour {
-	public GameObject BulletPrefab;
+	public Bullet BulletPrefab;
 	public float AttackDelay = 1;
 	public float turnSpeed = 1000.0f;
 	public Transform shootTransform;
@@ -107,17 +107,17 @@ public class Shooter : MonoBehaviour {
 		}
 
 		// create a new bullet
-		var bulletObj = (GameObject)Instantiate(BulletPrefab, transform.position, GetRotationToward(target));
+		var bullet = (Bullet)Instantiate(BulletPrefab, transform.position, GetRotationToward(target));
 
 		// set bullet faction
-		FactionManager.SetFaction (bulletObj, gameObject);
+		FactionManager.SetFaction (bullet.gameObject, gameObject);
 
 		// set velocity
-		var bullet = bulletObj.GetComponent<Bullet> ();
-		var rigidbody = bulletObj.GetComponent<Rigidbody> ();
-		var direction = target - bulletObj.transform.position;
+		var rigidbody = bullet.GetComponent<Rigidbody> ();
+		var direction = target - bullet.transform.position;
 		direction.Normalize ();
 		rigidbody.velocity = direction * bullet.speed;
+		bullet.owner = gameObject;
 
 		// reset shoot time
 		lastShotTime = Time.time;

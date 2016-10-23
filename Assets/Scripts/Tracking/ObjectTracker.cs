@@ -15,6 +15,10 @@ public class ObjectTracker : MonoBehaviour {
 
 	ObjectTracker() {
 		Instance = this;
+		Reset ();
+	}
+
+	void Reset() {
 		visibleObjects = new HashSet<Tracked> ();
 		invisibleObjects = new HashSet<Tracked> ();
 	}

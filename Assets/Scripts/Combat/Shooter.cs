@@ -40,7 +40,7 @@ public class Shooter : MonoBehaviour {
 	}
 
 	void OnStopAttack () {
-		lastShotTime = Time.time;
+		//lastShotTime = Time.time;
 	}
 
 	// Use this for initialization

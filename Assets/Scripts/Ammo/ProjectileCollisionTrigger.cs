@@ -74,7 +74,7 @@ public class ProjectileCollisionTrigger : MonoBehaviour {
 		var movementThisStep = transform.position - previousPosition;
 		float movementSqrMagnitude = movementThisStep.sqrMagnitude;
 		
-		if (movementSqrMagnitude > sqrMinimumExtent) {
+		//if (movementSqrMagnitude > sqrMinimumExtent) {
 			float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
 			
 			//check for obstructions we might have missed 
@@ -114,7 +114,7 @@ public class ProjectileCollisionTrigger : MonoBehaviour {
 					}
 				}
 			}
-		}
+		//}
 
 		previousPosition = transform.position = origPosition;
 	}

@@ -55,8 +55,8 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	void OnLevelStart() {
-		wonDisplay.enabled = false;
-		lostDisplay.enabled = false;
+		wonDisplay.gameObject.SetActive (false);
+		lostDisplay.gameObject.SetActive (false);
 		//GameManager.Instance.IsPaused = false;
 	}
 
@@ -74,14 +74,14 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public void NotifyLevelWon() {
-		GameManager.Instance.IsPaused = true;
 		SetLevelCompleted (CurrentSceneName, true);
-		wonDisplay.enabled = true;
+		wonDisplay.gameObject.SetActive (true);
+		GameManager.Instance.IsPaused = true;
 	}
 
 	public void NotifyLevelLost() {
 		GameManager.Instance.IsPaused = true;
-		lostDisplay.enabled = true;
+		lostDisplay.gameObject.SetActive (true);
 	}
 
 	public void RestartCurrentScene() {

@@ -55,8 +55,10 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	void OnLevelStart() {
-		wonDisplay.gameObject.SetActive (false);
-		lostDisplay.gameObject.SetActive (false);
+		if (wonDisplay != null) {
+			wonDisplay.gameObject.SetActive (false);
+			lostDisplay.gameObject.SetActive (false);
+		}
 		//GameManager.Instance.IsPaused = false;
 	}
 

@@ -27,6 +27,10 @@ public static class FactionManager {
 	public static bool AreHostile(GameObject obj1, GameObject obj2) {
 		return GetFactionType(obj1) != GetFactionType(obj2);
 	}
+
+	public static bool AreAllied(GameObject obj1, GameObject obj2) {
+		return GetFactionType(obj1) == GetFactionType(obj2);
+	}
 	
 	public static Faction GetFaction(GameObject obj) {
 		var factionType = GetFactionType (obj);
@@ -35,6 +39,9 @@ public static class FactionManager {
 	
 	public static FactionType GetFactionType(GameObject obj) {
 		var factionMember = obj.GetComponent<FactionMember> ();
+		if (factionMember == null) {
+			factionMember = obj.GetComponentInParent<FactionMember> ();
+		}
 		return factionMember != null ? factionMember.FactionType : default(FactionType);
 	}
 	

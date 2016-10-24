@@ -29,7 +29,8 @@ public class Bullet : MonoBehaviour {
 				DamageTarget (target);
 			}
 		}
-		else if (col.gameObject != owner && col.GetComponent<Bullet>() == null && col.GetComponentInParent<Bullet>() == null && destroyOnCollision) {
+		//else if (col.gameObject != owner && col.GetComponent<Bullet>() == null && col.GetComponentInParent<Bullet>() == null && destroyOnCollision) {
+		else if (destroyOnCollision && !FactionManager.AreAllied(gameObject, col.gameObject)) {
 			// hit something that is not an enemy unit -> Destroy anyway
 			DestroyThis ();
 		}

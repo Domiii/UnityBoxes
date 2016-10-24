@@ -2,6 +2,14 @@
 using System.Collections;
 
 public class Enemy : FactionMember {
+	Enemy() {
+		Reset ();
+	}
+
+	void Awake() {
+		Reset ();
+	}
+
 	void Reset() {
 		FactionType = FactionType.Enemy;
 	}

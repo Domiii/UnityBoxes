@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RandomWanderAction : AIAction {
-	public static readonly RandomWanderAction Default = new RandomWanderAction();
+public class WanderAction : AIAction {
+	public static readonly WanderAction Default = new WanderAction();
 }
 
 /// <summary>
@@ -10,7 +10,7 @@ public class RandomWanderAction : AIAction {
 /// </summary>
 [RequireComponent(typeof(NavMeshMover))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class RandomWander : AIStrategy<RandomWanderAction> {
+public class Wander : AIStrategy<WanderAction> {
 	float smoothness = 1;
 	NavMeshMover mover;
 	NavMeshAgent agent;
@@ -27,7 +27,7 @@ public class RandomWander : AIStrategy<RandomWanderAction> {
 		}
 	}
 
-	public override void StartBehavior(RandomWanderAction action) {
+	public override void StartBehavior(WanderAction action) {
 		mover.StopMovingAtDestination = true;
 		MoveIntoRandomDirection ();
 	}

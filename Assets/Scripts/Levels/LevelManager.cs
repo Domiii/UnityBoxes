@@ -68,7 +68,7 @@ public class LevelManager : MonoBehaviour {
 		return previousLevel == null || HasAlreadyCompletedLevel (previousLevel);
 	}
 
-	public void ResetAll() {
+	public void ResetPlayerData() {
 		PlayerPrefs.DeleteAll ();
 		PlayerPrefs.Save ();
 

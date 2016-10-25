@@ -7,7 +7,7 @@ namespace Strategies {
 	}
 	
 	/// <summary>
-	/// Stand still. Scan for attackable targets in range and attack when found.
+	/// Scan for attackable targets in range and attack when found.
 	/// </summary>
 	[RequireComponent(typeof(UnitAttacker))]
 	public class AutoAttack : AIStrategy<AutoAttackAction> {

@@ -113,10 +113,11 @@ public class Shooter : MonoBehaviour {
 			return;
 		}
 
+		var dir = target - transform.position;
+		dir.y = 0;
+		dir.Normalize ();
 		if (weapon.bulletCount > 1) {
 			// shoot N bullets in a cone from -coneAngle/2 to +coneAngle/2
-			var dir = target - transform.position;
-			dir.Normalize ();
 			dir = Quaternion.Euler (0, -weapon.ConeAngle / 2, 0) * dir;
 
 			var deltaAngle = weapon.ConeAngle / (weapon.bulletCount-1);
@@ -128,8 +129,8 @@ public class Shooter : MonoBehaviour {
 
 			}
 		} else {
-			// just one bullet straight forward
-			ShootBullet (shootTransform.forward);
+			// just one bullet straight toward the target
+			ShootBullet (dir);
 		}
 
 		// reset shoot time
@@ -137,8 +138,10 @@ public class Shooter : MonoBehaviour {
 	}
 
 	void ShootBullet(Vector3 dir) {
-		// create a new bullet
-		var bullet = (Bullet)Instantiate(weapon.bulletPrefab, transform.position, GetRotationFromDirection(dir));
+		// create a new bullet (make sure, it's on same height as target)
+		var pos = transform.position;
+		pos.y = currentTarget.y;
+		var bullet = (Bullet)Instantiate(weapon.bulletPrefab, pos, GetRotationFromDirection(dir));
 
 		// set bullet faction
 		FactionManager.SetFaction (bullet.gameObject, gameObject);

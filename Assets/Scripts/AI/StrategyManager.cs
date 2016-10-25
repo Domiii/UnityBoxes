@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Linq;
 using System.Collections.Generic;
 
+
+
 /// <summary>
 /// Provides Action <-> Strategy Mapping
 /// </summary>
@@ -28,7 +30,7 @@ public class StrategyManager : UnityEngine.MonoBehaviour {
 	static Type GetActionType(Type t) {
 		var baseType = t.BaseType;
 		if (baseType.GetGenericArguments().Length != 1 || !baseType.GetGenericArguments()[0].IsSubclassOf(typeof(AIAction))) {
-			UnityEngine.Debug.LogError("Invalid Strategy definition does not inherit from AIStrategy<AIAction>: " + t.FullName);
+			//UnityEngine.Debug.LogError("Invalid Strategy definition does not inherit from AIStrategy<AIAction>: " + t.FullName);
 			return null;
 		}
 		return baseType.GetGenericArguments()[0];

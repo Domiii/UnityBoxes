@@ -46,7 +46,6 @@ public class MainMenu : MonoBehaviour {
 		for (var j = 0; j < nRows; ++j) {
 			var x = margin;
 
-			print (x);
 			for (var i = 0; i < nCols && iButton < levels.Length; ++i) {
 				var lvl = levels [iButton++];
 				var btn = (LevelButton)Instantiate(levelButtonPrefab, parent, true);

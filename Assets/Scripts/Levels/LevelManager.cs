@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class LevelManager : MonoBehaviour {
-	public string mainMenuScene;
+	public string levelPrefix = "Level";
+	public string mainMenuScene = "MainMenu";
 	public string[] levels;
 	public Canvas wonDisplay;
 	public Canvas lostDisplay;
@@ -26,15 +27,11 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	void Reset() {
-//		// we gonna keep this guy!
-//		DontDestroyOnLoad (gameObject);
-//		if (transform.parent != null) {
-//			DontDestroyOnLoad (transform.parent.gameObject);
-//		}
-
-//		for (var i = 0; i < SceneManager.sceneCount; ++i) {
-//			var scene = SceneManager.GetSceneAt (i);
-//		}
+		//		// we gonna keep this guy!
+		//		DontDestroyOnLoad (gameObject);
+		//		if (transform.parent != null) {
+		//			DontDestroyOnLoad (transform.parent.gameObject);
+       		//		}
 	}
 
 	string GetLevelCompletedKey(string level) {

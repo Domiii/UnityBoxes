@@ -14,6 +14,7 @@ public class MainMenuEditor : Editor {
 		}
 
 		if (GUILayout.Button ("Build Menu")) {
+			LevelManagerEditor.ResetLevelList ();
 			menu.BuildMenu ();
 		}
 	}

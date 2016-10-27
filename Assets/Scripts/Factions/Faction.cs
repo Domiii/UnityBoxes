@@ -41,7 +41,7 @@ public class Faction : MonoBehaviour {
 	}
 	#endregion
 
-	void OnDeath() {
+	void OnDeath(DamageInfo damageInfo) {
 		if (_factionType == FactionType.Player) {
 			// player lost
 			//GameManager.Instance.LoseGame();

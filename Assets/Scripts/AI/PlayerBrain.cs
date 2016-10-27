@@ -11,4 +11,8 @@ public class PlayerBrain : BaseBrain {
 		// AutoAttack is the default strategy
 		SetDefaultStrategy<Strategies.Idle>();
 	}
+
+	void OnDeath(DamageInfo damageInfo) {
+		LevelManager.Instance.NotifyLevelLost ();
+	}
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerBrain : BaseBrain {
+public class PlayerBrain : Brain {
 	void Awake () {
 		AddStrategy<Strategies.Idle> ();
 		//AddStrategy<Strategies.HuntTarget> ();

@@ -23,6 +23,6 @@ public class AttackerEditor : Editor
 
 
 		Handles.color = Color.red;
-		Handles.DrawWireDisc(pos, Vector3.up, t.AttackRadius);
+		Handles.DrawWireDisc(pos, Vector3.up, t.attackRadius);
 	}
 }

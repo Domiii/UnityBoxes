@@ -7,7 +7,7 @@ namespace Strategies {
 	}
 
 	/// <summary>
-	/// Attack when close enough; else move and catch up
+	/// Attack given target when close enough; else move and catch up
 	/// </summary>
 	[RequireComponent(typeof(UnitAttacker))]
 	[RequireComponent(typeof(NavMeshMover))]

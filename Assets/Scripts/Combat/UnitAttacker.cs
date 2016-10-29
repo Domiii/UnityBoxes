@@ -3,16 +3,21 @@ using System.Collections;
 
 [RequireComponent(typeof(Shooter))]
 public class UnitAttacker : MonoBehaviour {
-	public float AttackRadius = 10.0f;
+	public float attackRadius = 10.0f;
+	public bool attackOnSight = false;
 
 	Unit currentTarget;
 	Shooter shooter;
+	Collider[] collidersInRange;
 
 	void Awake() {
 		shooter = GetComponent<Shooter> ();
 	}
 
 	void Update() {
+		if (attackOnSight) {
+			EnsureTarget ();
+		}
 		KeepAttackingCurrentTarget ();
 	}
 
@@ -46,7 +51,7 @@ public class UnitAttacker : MonoBehaviour {
 
 	public bool IsInRange(Unit target) {
 		var dist = (target.transform.position - transform.position).sqrMagnitude;
-		return dist <= AttackRadius * AttackRadius;
+		return dist <= attackRadius * attackRadius;
 	}
 
 	public bool IsValidTarget(Unit target) {
@@ -81,6 +86,47 @@ public class UnitAttacker : MonoBehaviour {
 
 	public void StopAttack() {
 		shooter.StopShooting ();
+	}
+	#endregion
+
+
+	#region Finding Targets
+	public bool EnsureTarget() {
+		// #1 keep attacking previous target.
+		// #2 if currently has no target: look for new target to attack
+		if (!CanAttackCurrentTarget && !FindNewTarget ()) {
+			// could not find a valid target -> Stop
+			StopAttack();
+			return false;
+		}
+		return true;
+	}
+
+	public bool FindNewTarget() {
+		// find new target
+		var target = FindTarget();
+
+		if (target != null) {
+			return StartAttack (target);
+		}
+		return false;
+	}
+
+	Unit FindTarget() {
+		if (collidersInRange == null) {
+			collidersInRange = new Collider[128];
+		}
+		var nResults = Physics.OverlapSphereNonAlloc(transform.position, attackRadius, collidersInRange);
+		for (var i = 0; i < nResults; ++i) {
+			var collider = collidersInRange[i];
+			var unit = collider.GetComponent<Unit> ();
+			if (unit != null && IsValidTarget(unit)) {
+				return unit;
+			}
+		}
+
+		// no valid target found
+		return null;
 	}
 	#endregion
 

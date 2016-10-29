@@ -11,8 +11,11 @@ public class HealthBar : MonoBehaviour {
 	Image image;
 
 	HealthBar() {
-		goodColor = Color.Lerp(Color.green, new Color(0,255,0,0), 0.5f);
-		badColor = Color.Lerp(Color.red, new Color(255,0,0,0), 0.5f);
+	}
+
+	void Reset() {
+		goodColor = Color.Lerp(Color.green, new Color(0,255,0,0), 0.6f);
+		badColor = Color.Lerp(Color.red, new Color(255,0,0,0), 0.6f);
 	}
 
 	void Start() {
@@ -36,9 +39,11 @@ public class HealthBar : MonoBehaviour {
 	void Update() {
 		var ratio = unit.Health / unit.MaxHealth;
 
+		// set color
 		var color = Color.Lerp(badColor, goodColor, ratio);
 		image.color = color;
 
-		//image.fillAmount = ratio;
+		// set size
+		image.fillAmount = ratio;
 	}
 }

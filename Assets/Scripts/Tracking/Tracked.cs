@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Registers this object with the ObjectTracker and 
+/// provides arrow image for tracking.
+/// </summary>
 public class Tracked : MonoBehaviour {
 
 	public bool IsOnCamera {

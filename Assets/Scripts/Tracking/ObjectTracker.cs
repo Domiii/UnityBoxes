@@ -3,6 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+/// <summary>
+/// Displays arrows toward all "Tracked" objects outside of the viewport
+/// </summary>
 public class ObjectTracker : MonoBehaviour {
 	public static ObjectTracker Instance {
 		get;

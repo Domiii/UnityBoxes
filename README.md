@@ -14,3 +14,5 @@
 * A few simply enemy "boxes"
 * A simple rule-based AI framework
 * Arrow-tracking of off-screen enemies
+* Dynamic LevelManager
+* Saves level progress automatically

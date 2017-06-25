@@ -39,4 +39,28 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 	}
+
+	#region Temp objects
+	public GameObject tempObject;
+
+	static string tempName = "__temp";
+
+	public static GameObject Temp {
+		get {
+			if (Instance.tempObject == null) {
+				Instance.tempObject = GameObject.Find (tempName);
+				if (Instance.tempObject == null) {
+					Instance.tempObject = CreateTemp ();
+				}
+			}
+			return Instance.tempObject;
+		}
+	}
+
+	static GameObject CreateTemp() {
+		var go = new GameObject (tempName);
+		//go.SetActive (false);
+		return go;
+	}
+	#endregion
 }

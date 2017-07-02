@@ -29,6 +29,14 @@ public class ProceduralEnemy : MonoBehaviour {
 		GenMaterial ();
 	}
 
+	/// <summary>
+	/// Make sure, gameObject rests on the y = 0 plane
+	/// </summary>
+	public void FixYPosition() {
+		var bounds = GetComponent<Collider> ().bounds;
+		transform.position -= Vector3.up * bounds.min.y;
+	}
+
 	#region Shape
 	static readonly PrimitiveType[] AllShapes = new []{
 		PrimitiveType.Capsule,
@@ -37,6 +45,7 @@ public class ProceduralEnemy : MonoBehaviour {
 		PrimitiveType.Sphere
 	};
 	static Vector3 halfSize = new Vector3 (1,0.5f,1);
+
 	void GenShape() {
 		var shapeType = AllShapes[Random.Range(0, AllShapes.Length)];
 		var size = Mathf.Sqrt(strength);
@@ -52,10 +61,6 @@ public class ProceduralEnemy : MonoBehaviour {
 		if (bounds.extents.y/size > 0.51f) {
 			transform.localScale = Vector3.Scale(transform.localScale, halfSize);
 		}
-
-		// make sure, gameObject rests on the y = 0 plane
-		bounds = GetComponent<Collider> ().bounds;
-		transform.position -= Vector3.up * bounds.min.y;
 	}
 	#endregion
 

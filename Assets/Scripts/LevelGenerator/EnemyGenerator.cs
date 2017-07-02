@@ -2,9 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// #########################################################
+
+// TODO: More random parameters
+// Enemy count parameters
+// Enemy positioning parameters
+// Enemy grouping parameters
+
+// TODO: More interesting sscene + game design elements
+// Obstacles
+// Pick-ups
+// Levels
+// Difficulty progression
+
+// TODO: Line of sight (LoS) for shooting + movement AI
+
+// #########################################################
+
 public class EnemyGenerator : MonoBehaviour {
 	[Range(1, 100)]
-	public float strength = 10;
+	public float minStrength = 1;
+	[Range(1, 100)]
+	public float maxStrength = 10;
 
 	[Range(1, 100)]
 	public int nMaxEnemies = 5;
@@ -38,9 +57,16 @@ public class EnemyGenerator : MonoBehaviour {
 	ProceduralEnemy GenEnemy(int i) {
 		var go = new GameObject ("Enemy" + (i+1), typeof(ProceduralEnemy));
 		var enemy = go.GetComponent<ProceduralEnemy> ();
+		enemy.strength = Random.Range (minStrength, maxStrength);
 		enemy.Generate ();
-		enemy.transform.parent = enemyContainer.transform;
+		PlaceEnemy (enemy);
 		return enemy;
+	}
+
+	void PlaceEnemy(ProceduralEnemy enemy) {
+		enemy.transform.parent = enemyContainer.transform;
+		enemy.transform.localPosition = Vector3.zero;
+		enemy.FixYPosition ();
 	}
 
 	public void Clear() {

@@ -23,6 +23,9 @@
 *.svd
 
 
+# OS files
+.DS_Store
+
 # Unity3D generated meta files
 *.pidb.meta
 
@@ -32,7 +35,6 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-
 
 ##########################################################
 # OS generated files #
@@ -70,3 +72,7 @@ Desktop.ini
 
 # sftp configuration file
 sftp-config.json
+
+
+
+ProjectSettings/ProjectVersion.txt

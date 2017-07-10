@@ -14,13 +14,13 @@ public class StrategyManager : UnityEngine.MonoBehaviour {
 	//public string strategies = "hi\nworld";
 
 	static Type[] strategyTypes;
+	static Type[] actionStrategyTypes;
 	static Dictionary<Type, Type> strategyTypesByActionType;
 
 //	static StrategyManager instance;
 
 	static StrategyManager() {
 		RegisterAllStrategies();
-		//UnityEngine.Debug.Log ("static StrategyManager()");
 	}
 
 	static void RegisterAllStrategies() {
@@ -38,9 +38,14 @@ public class StrategyManager : UnityEngine.MonoBehaviour {
 	}
 
 	static void RegisterAllStrategies(Assembly assembly) {
-		strategyTypes = assembly.GetTypes ().Where(t => t.IsSubclassOf(typeof(AIStrategy)) && !t.IsAbstract && GetActionType(t) != null).ToArray();
+		strategyTypes = assembly.GetTypes ().Where(t => t.IsSubclassOf(typeof(AIStrategy)) && !t.IsAbstract).ToArray();
+		actionStrategyTypes = strategyTypes.Where(t => GetActionType(t) != null).ToArray();
 
-		strategyTypesByActionType = strategyTypes.ToDictionary<Type, Type>(GetActionType);
+		strategyTypesByActionType = actionStrategyTypes.ToDictionary<Type, Type>(GetActionType);
+	}
+
+	public static Type[] StrategyTypes {
+		get { return strategyTypes; }
 	}
 
 	public static Type GetStrategyTypeForAction(AIAction action) {

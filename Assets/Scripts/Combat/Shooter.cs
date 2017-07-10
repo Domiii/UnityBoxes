@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class Shooter : MonoBehaviour {
 	public WeaponConfig weapon = new WeaponConfig();

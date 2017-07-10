@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class WASDClickToShootPlayerControl : PlayerControlBase {
 	public float speed = 8;

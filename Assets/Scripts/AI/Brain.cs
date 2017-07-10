@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class BaseBrain : MonoBehaviour {
+public class Brain : MonoBehaviour {
 	protected List<AIStrategy> strategies = new List<AIStrategy>();
 	protected AIStrategy currentStrategy;
 	protected AIStrategy defaultStrategy;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class WanderAction : AIAction {
 	public static readonly WanderAction Default = new WanderAction();

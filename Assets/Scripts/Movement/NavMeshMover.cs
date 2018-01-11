@@ -44,7 +44,7 @@ public class NavMeshMover : MonoBehaviour {
 		if (isMoving) {
 			HasArrived = true;
 			isMoving = false;
-			agent.Stop ();
+			agent.isStopped = true;
 			OnStopMove ();
 		}
 	}
@@ -55,7 +55,7 @@ public class NavMeshMover : MonoBehaviour {
 			HasArrived = false;
 			startedMovingFlag = false;
 			isMoving = true;
-			agent.Resume ();
+			agent.isStopped = false;
 			OnStartMove ();
 		}
 	}

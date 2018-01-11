@@ -22,7 +22,7 @@ public class Wander : AIStrategy<WanderAction> {
 		MoveIntoRandomDirection ();
 	}
 
-	void Update() {
+	protected override void UpdateStrategy() {
 		if (mover.HasArrived) {
 			MoveIntoRandomDirection ();
 		}

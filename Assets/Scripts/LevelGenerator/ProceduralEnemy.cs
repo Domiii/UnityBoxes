@@ -90,7 +90,7 @@ public class ProceduralEnemy : MonoBehaviour {
 	#endregion
 
 	void GenUnit() {
-		var unit = gameObject.AddComponent <Unit>();
+		//var unit = gameObject.AddComponent <Unit>();
 	}
 
 	public void Clear() {

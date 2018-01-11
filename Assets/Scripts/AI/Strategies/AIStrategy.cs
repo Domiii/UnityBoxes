@@ -19,14 +19,26 @@ public abstract class AIStrategy<A> : AIStrategy
 
 public class AIStrategy : MonoBehaviour {
 	public System.Action<AIStrategy> FinishedHandler;
+	public bool isEnabled = true;
 
+
+	void Update() {
+		if (isEnabled) {
+			UpdateStrategy ();
+		}
+	}
+
+	protected virtual void UpdateStrategy() {
+	}
 
 	public virtual void StartStrategy(AIAction action) {
+		isEnabled = true;
 	}
 
 	public void StopStrategy() {
 		NotifyFinished ();
 		OnStop ();
+		isEnabled = false;
 	}
 
 	protected void NotifyFinished() {
@@ -36,5 +48,26 @@ public class AIStrategy : MonoBehaviour {
 	}
 
 	protected virtual void OnStop() {
+	}
+
+	protected void StartOtherStrategies() {
+		SendMessage ("OnStartOtherStrategies", this, SendMessageOptions.DontRequireReceiver);
+	}
+
+	protected void StopOtherStrategies() {
+		SendMessage ("OnStopOtherStrategies", this, SendMessageOptions.DontRequireReceiver);
+	}
+
+	void OnResumeOtherStrategies(AIStrategy sender) {
+		if (sender != this) {
+			// resume
+			isEnabled = true;
+		}
+	}
+
+	void OnStopOtherStrategies(AIStrategy sender) {
+		if (sender != this) {
+			StopStrategy ();
+		}
 	}
 }

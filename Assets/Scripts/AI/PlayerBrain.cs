@@ -6,9 +6,10 @@ public class PlayerBrain : Brain {
 		AddStrategy<Strategies.Idle> ();
 		//AddStrategy<Strategies.HuntTarget> ();
 
+		// 
 		AddStrategy<Strategies.ShootInDirection> ();
 
-		// AutoAttack is the default strategy
+		// Idle is the default strategy
 		SetDefaultStrategy<Strategies.Idle>();
 	}
 

@@ -27,7 +27,7 @@ public static class PrimitiveHelper
 		meshFilter.sharedMesh = GetPrimitiveMesh(type);
 
 		// add renderer
-		var renderer = gameObject.AddComponent<MeshRenderer>();
+		//var renderer = gameObject.AddComponent<MeshRenderer>();
 
 		// add material (if you want to...)
 		//renderer.sharedMaterial = new Material(Shader.Find("Standard"));

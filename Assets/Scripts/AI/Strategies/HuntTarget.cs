@@ -14,6 +14,7 @@ namespace Strategies {
 	public class HuntTarget : AIStrategy<HuntTargetAction> {
 		UnitAttacker attacker;
 		NavMeshMover mover;
+		bool hadValidTarget = false;
 
 		#region Public
 		public Unit CurrentTarget {
@@ -33,9 +34,14 @@ namespace Strategies {
 			mover = GetComponent<NavMeshMover> ();
 		}
 
-		void Update () {
+		protected override void UpdateStrategy() {
 			// current target out of range -> move to catch up
 			if (attacker.IsCurrentValid) {
+				if (!hadValidTarget) {
+					// new target found! stop everything else.
+					hadValidTarget = true;
+					StopOtherStrategies ();
+				}
 				if (attacker.IsCurrentInRange) {
 					// keep attacking; also: make sure, we are not moving
 					mover.StopMove();
@@ -46,9 +52,9 @@ namespace Strategies {
 					attacker.StopAttack ();
 				}
 			}
-			else {
-				// we have no more valid target (target might have died, disappeared, turned etc) -> done!
-				StopStrategy();
+			else if (hadValidTarget) {
+				// we have no more valid target anymore (target might have died, disappeared, turned etc) -> done!
+				StartOtherStrategies();
 			}
 		}
 

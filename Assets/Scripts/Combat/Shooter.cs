@@ -19,9 +19,9 @@ public class Shooter : MonoBehaviour {
 			if (isAttacking != value) {
 				isAttacking = value;
 				if (isAttacking) {
-					OnStartAttack ();
+					NotifyStartAttack ();
 				} else {
-					OnStopAttack ();
+					NotifyStopAttack ();
 				}
 			}
 		}
@@ -36,10 +36,12 @@ public class Shooter : MonoBehaviour {
 		IsAttacking = false;
 	}
 
-	void OnStartAttack () {
+	void NotifyStartAttack () {
+		SendMessage ("OnStartAttack", SendMessageOptions.DontRequireReceiver);
 	}
 
-	void OnStopAttack () {
+	void NotifyStopAttack () {
+		SendMessage ("OnStopAttack", SendMessageOptions.DontRequireReceiver);
 		//lastShotTime = Time.time;
 	}
 
@@ -150,9 +152,11 @@ public class Shooter : MonoBehaviour {
 		// set velocity
 		var rigidbody = bullet.GetComponent<Rigidbody> ();
 		rigidbody.velocity = dir * bullet.speed;
-		bullet.owner = gameObject;
+		//bullet.owner = gameObject;
 		bullet.damageMin = weapon.damageMin;
 		bullet.damageMax = weapon.damageMax;
+		bullet.speed = weapon.bulletSpeed;
+		bullet.lifeTime = weapon.bulletLifeTime;
 	}
 
 	void OnDeath(DamageInfo damageInfo) {

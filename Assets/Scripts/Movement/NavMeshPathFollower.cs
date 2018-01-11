@@ -5,15 +5,15 @@ using System;
 
 
 public class NavMeshPathFollower : NavMeshMover {
-	public Path path;
-	public Path.FollowDirection direction;
-	public Path.RepeatMode mode;
+	public NavPath path;
+	public NavPath.FollowDirection direction;
+	public NavPath.RepeatMode mode;
 
 	float maxDistanceToGoal;
 	IEnumerator<Transform> pathIterator;
 
 	#region Public
-	public void SetPath(Path path, Path.FollowDirection pathDirection = Path.FollowDirection.Forward, Path.RepeatMode mode = Path.RepeatMode.Once) {
+	public void SetPath(NavPath path, NavPath.FollowDirection pathDirection = NavPath.FollowDirection.Forward, NavPath.RepeatMode mode = NavPath.RepeatMode.Once) {
 		Debug.Assert (path != null);
 
 		this.path = path;
@@ -60,16 +60,16 @@ public class NavMeshPathFollower : NavMeshMover {
 		if (pathIterator.Current == null) {
 			// finished path once
 			switch (mode) {
-			case Path.RepeatMode.Once:
+			case NavPath.RepeatMode.Once:
 				// done!
 				break;
-			case Path.RepeatMode.Mirror:
+			case NavPath.RepeatMode.Mirror:
 				// reverse direction and walk back
-				direction = direction == Path.FollowDirection.Forward ? Path.FollowDirection.Backward : Path.FollowDirection.Forward;
+				direction = direction == NavPath.FollowDirection.Forward ? NavPath.FollowDirection.Backward : NavPath.FollowDirection.Forward;
 				RestartPath ();
 				MoveAlongPath ();
 				break;
-			case Path.RepeatMode.Repeat:
+			case NavPath.RepeatMode.Repeat:
 				// start from the beginning
 				RestartPath ();
 				MoveAlongPath ();

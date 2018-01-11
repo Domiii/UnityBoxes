@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 [CustomEditor(typeof(LevelManager))]
 public class LevelManagerEditor : Editor {
@@ -35,5 +36,6 @@ public class LevelManagerEditor : Editor {
 			}
 		}
 		levelManager.levels = levelList.ToArray ();
+		EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 	}
 }

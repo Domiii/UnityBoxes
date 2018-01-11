@@ -53,12 +53,17 @@ public class WASDClickToShootPlayerControl : PlayerControlBase {
 
 	void CheckClick() {
 		if (Input.GetMouseButtonDown (0)) {
+			// mouse click -> start something
+			// 點滑鼠 -> 開始做事
 			HandleMouse (true);
 			mouseDown = true;
 		} else if (Input.GetMouseButton (0)) {
+			// mouse button is pressed all the time
+			// 繼續點滑鼠
 			HandleMouse (false);
 		} else if (mouseDown) {
-			// idle
+			// mouse released -> stop it
+			// 滑鼠被放解
 			mouseDown = false;
 			NextAction = Strategies.IdleAction.Default;
 		} 

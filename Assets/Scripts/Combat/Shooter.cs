@@ -149,14 +149,14 @@ public class Shooter : MonoBehaviour {
 		// set bullet faction
 		FactionManager.SetFaction (bullet.gameObject, gameObject);
 
-		// set velocity
-		var rigidbody = bullet.GetComponent<Rigidbody> ();
-		rigidbody.velocity = dir * bullet.speed;
 		//bullet.owner = gameObject;
 		bullet.damageMin = weapon.damageMin;
 		bullet.damageMax = weapon.damageMax;
-		bullet.speed = weapon.bulletSpeed;
 		bullet.lifeTime = weapon.bulletLifeTime;
+
+		// set velocity
+		var rigidbody = bullet.GetComponent<Rigidbody> ();
+		rigidbody.velocity = dir * weapon.bulletSpeed;
 	}
 
 	void OnDeath(DamageInfo damageInfo) {

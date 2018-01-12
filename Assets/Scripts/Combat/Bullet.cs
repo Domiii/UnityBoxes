@@ -8,8 +8,6 @@ public class Bullet : MonoBehaviour {
 	public float pushPower = 100;
 
 	[HideInInspector]
-	public float speed = 10;
-	[HideInInspector]
 	public float lifeTime = 10;
 	[HideInInspector]
 	public float damageMin;

@@ -26,9 +26,9 @@ public class Bullet : MonoBehaviour {
 			return;
 		}
 
-		var target = Living.GetUnit(col.gameObject);
+		var target = Living.GetLiving(col.gameObject);
 		if (target != null) {
-			// when colliding with Unit -> Check if we can attack the Unit
+			// when colliding with Living -> Check if we can attack the Living
 			if (target.CanBeAttacked && FactionManager.AreHostile (gameObject, target.gameObject)) {
 				DamageTarget (target);
 			}
@@ -57,12 +57,12 @@ public class Bullet : MonoBehaviour {
 	}
 
 	void DamageTarget (Living target) {
-		// damage the unit!
+		// damage the target!
+
 //		var damage = Random.Range (damageMin, damageMax);
 //		target.Damage (damage, FactionManager.GetFactionType(gameObject));
 //		DestroyThis ();
 
-		// damage the unit!
 		//var damageInfo = ObjectManager.Instance.Obtain<DamageInfo> ();
 		var damageInfo = new DamageInfo ();
 		damageInfo.Value = Random.Range (damageMin, damageMax);

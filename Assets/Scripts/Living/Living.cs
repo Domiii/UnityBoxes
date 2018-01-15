@@ -69,21 +69,21 @@ public class Living : MonoBehaviour {
 	}
    	#endregion
 
-	public static Living GetUnit<C>(C component) 
+	public static Living GetLiving<C>(C component) 
 		where C : Component
 	{
-		return GetUnit (component.gameObject);
+		return GetLiving (component.gameObject);
 	}
 
 	/// <summary>
 	/// Helper method to get the Unit component of the given GO or its ancestors.
 	/// </summary>
-	public static Living GetUnit(GameObject go) {
+	public static Living GetLiving(GameObject go) {
 		// check if the given object is a Unit
 		var unit = go.GetComponent<Living>();
 		if (unit == null && go.transform.parent != null) {
 			// check faction type of parent (and recurse through all ancestors)
-			unit = GetUnit(go.transform.parent.gameObject);
+			unit = GetLiving(go.transform.parent.gameObject);
 		}
 		return unit;
 	}

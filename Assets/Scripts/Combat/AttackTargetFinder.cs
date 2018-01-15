@@ -16,9 +16,9 @@ public class AttackTargetFinder : MonoBehaviour {
 		var nResults = Physics.OverlapSphereNonAlloc (transform.position, radius, collidersInRange);
 		for (var i = 0; i < nResults; ++i) {
 			var collider = collidersInRange [i];
-			var unit = Living.GetUnit (collider);
-			if (unit && IsValidTarget (unit)) {
-				return unit;
+			var living = Living.GetLiving (collider);
+			if (living && IsValidTarget (living)) {
+				return living;
 			}
 		}
 

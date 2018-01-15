@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit : MonoBehaviour {
+public class Living : MonoBehaviour {
 	#region Life, Health + Death
 	/// <summary>
 	/// 頂多多少生命值？
@@ -69,7 +69,7 @@ public class Unit : MonoBehaviour {
 	}
    	#endregion
 
-	public static Unit GetUnit<C>(C component) 
+	public static Living GetUnit<C>(C component) 
 		where C : Component
 	{
 		return GetUnit (component.gameObject);
@@ -78,9 +78,9 @@ public class Unit : MonoBehaviour {
 	/// <summary>
 	/// Helper method to get the Unit component of the given GO or its ancestors.
 	/// </summary>
-	public static Unit GetUnit(GameObject go) {
+	public static Living GetUnit(GameObject go) {
 		// check if the given object is a Unit
-		var unit = go.GetComponent<Unit>();
+		var unit = go.GetComponent<Living>();
 		if (unit == null && go.transform.parent != null) {
 			// check faction type of parent (and recurse through all ancestors)
 			unit = GetUnit(go.transform.parent.gameObject);

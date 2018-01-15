@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Strategies {
 	public class HuntTargetAction : AIAction {
-		public Unit target;
+		public Living target;
 	}
 
 	/// <summary>
@@ -17,7 +17,7 @@ namespace Strategies {
 		bool hadValidTarget = false;
 
 		#region Public
-		public Unit CurrentTarget {
+		public Living CurrentTarget {
 			get {
 				return attacker.CurrentTarget;
 			}

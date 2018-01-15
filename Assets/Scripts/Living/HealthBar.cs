@@ -4,7 +4,7 @@ using System.Collections;
 
 [RequireComponent(typeof(Image))]
 public class HealthBar : MonoBehaviour {
-	public Unit unit;
+	public Living unit;
 	public Color goodColor;
 	public Color badColor;
 
@@ -24,14 +24,14 @@ public class HealthBar : MonoBehaviour {
 		// try finding the Unit
 		if (unit == null) {
 			// children
-			unit = GetComponentInChildren<Unit> ();
+			unit = GetComponentInChildren<Living> ();
 		}
 		if (unit == null && transform.parent != null) {
 			// parent
-			unit = GetComponentInParent<Unit> ();
+			unit = GetComponentInParent<Living> ();
 			if (unit == null) {
 				// siblings
-				unit = transform.parent.GetComponentInChildren<Unit> ();
+				unit = transform.parent.GetComponentInChildren<Living> ();
 			}
 		}
 	}

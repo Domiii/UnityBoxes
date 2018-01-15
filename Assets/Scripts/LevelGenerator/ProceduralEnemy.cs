@@ -9,7 +9,7 @@ public class ProceduralEnemy : MonoBehaviour {
 
 	public bool IsGenerated {
 		get {
-			return GetComponent<Unit>() != null;
+			return GetComponent<Living>() != null;
 		}
 	}
 

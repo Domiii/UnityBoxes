@@ -10,7 +10,7 @@ public class UnitAttacker : MonoBehaviour {
 	public float attackRadius = 10.0f;
 	public bool attackOnSight = false;
 
-	Unit currentTarget;
+	Living currentTarget;
 	Shooter shooter;
 	AttackTargetFinder targetFinder;
 
@@ -32,7 +32,7 @@ public class UnitAttacker : MonoBehaviour {
 
 
 	#region Public
-	public Unit CurrentTarget {
+	public Living CurrentTarget {
 		get {
 			return currentTarget;
 		}
@@ -54,7 +54,7 @@ public class UnitAttacker : MonoBehaviour {
 		}
 	}
 
-	public bool IsInRange (Unit target) {
+	public bool IsInRange (Living target) {
 		var collider = target.GetComponent<Collider> ();
 		if (!collider) {
 			collider = target.GetComponentInChildren<Collider> ();
@@ -72,7 +72,7 @@ public class UnitAttacker : MonoBehaviour {
 		return distSq <= attackRadius * attackRadius;
 	}
 
-	public bool CanAttack (Unit target) {
+	public bool CanAttack (Living target) {
 		return IsInRange (target) && targetFinder.IsValidTarget (target);
 	}
 
@@ -89,7 +89,7 @@ public class UnitAttacker : MonoBehaviour {
 		return false;
 	}
 
-	public bool StartAttack (Unit target) {
+	public bool StartAttack (Living target) {
 		if (CanAttackCurrentTarget) {
 			StopAttack ();
 		}

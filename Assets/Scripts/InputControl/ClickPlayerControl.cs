@@ -37,7 +37,7 @@ public class ClickPlayerControl : PlayerControlBase {
 		if (clicked) {
 			// clicking -> attack or move
 			var go = hit.collider.gameObject;
-			var unit = go.GetComponent<Unit> ();
+			var unit = go.GetComponent<Living> ();
 
 			if (unit != null) {
 				// clicked a unit -> attack if enemy

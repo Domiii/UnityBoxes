@@ -9,10 +9,10 @@ namespace Strategies {
 	/// <summary>
 	/// Attack given target when close enough; else move and catch up
 	/// </summary>
-	[RequireComponent(typeof(UnitAttacker))]
+	[RequireComponent(typeof(Attacker))]
 	[RequireComponent(typeof(NavMeshMover))]
 	public class HuntTarget : AIStrategy<HuntTargetAction> {
-		UnitAttacker attacker;
+		Attacker attacker;
 		NavMeshMover mover;
 		bool hadValidTarget = false;
 
@@ -30,7 +30,7 @@ namespace Strategies {
 		#endregion
 
 		void Awake () {
-			attacker = GetComponent<UnitAttacker> ();
+			attacker = GetComponent<Attacker> ();
 			mover = GetComponent<NavMeshMover> ();
 		}
 

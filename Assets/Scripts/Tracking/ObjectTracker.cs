@@ -41,6 +41,8 @@ public class ObjectTracker : MonoBehaviour {
 		if (go.IsOnCamera) {
 			onCameraObjects.Add (go);
 			offCameraObjects.Remove (go);
+
+			DisableArrow (go);
 		} else {
 			onCameraObjects.Remove (go);
 			offCameraObjects.Add(go);

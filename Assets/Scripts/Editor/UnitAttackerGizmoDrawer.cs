@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class UnitAttackerGizmoDrawer {
 	[DrawGizmo(GizmoType.Selected | GizmoType.Active)]
-	static void DrawGizmoForMyScript(UnitAttacker t, GizmoType gizmoType)
+	static void DrawGizmoForMyScript(Attacker t, GizmoType gizmoType)
 	{
 //		if (Vector3.Distance(position, Camera.current.transform.position) > 10f)
 //			Gizmos.DrawIcon(position, "MyScript Gizmo.tiff");

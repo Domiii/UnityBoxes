@@ -6,9 +6,9 @@ using System.Collections;
 /// </summary>
 [RequireComponent (typeof(Shooter))]
 [RequireComponent(typeof(AttackTargetFinder))]
-public class UnitAttacker : MonoBehaviour {
+public class Attacker : MonoBehaviour {
 	public float attackRadius = 10.0f;
-	public bool attackOnSight = false;
+	public bool attackOnSight = true;
 
 	Living currentTarget;
 	Shooter shooter;

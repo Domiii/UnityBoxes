@@ -14,7 +14,7 @@ public class ObjectTracker : MonoBehaviour {
 
 	public Image arrowPrefab;
 	public Canvas trackerCanvas;
-	HashSet<Tracked> visibleObjects, invisibleObjects;
+	HashSet<Tracked> onCameraObjects, offCameraObjects;
 
 	ObjectTracker() {
 		Instance = this;
@@ -22,38 +22,35 @@ public class ObjectTracker : MonoBehaviour {
 	}
 
 	void Reset() {
-		visibleObjects = new HashSet<Tracked> ();
-		invisibleObjects = new HashSet<Tracked> ();
+		onCameraObjects = new HashSet<Tracked> ();
+		offCameraObjects = new HashSet<Tracked> ();
 	}
 
 	void Update() {
-		foreach (var go in invisibleObjects) {
-			DrawArrow (go);
-		}
-
-		foreach (var go in invisibleObjects) {
-			DrawArrow (go);
+		foreach (var tracked in offCameraObjects) {
+			if (tracked.isActiveAndEnabled) {
+				EnableArrow (tracked);
+				DrawArrow (tracked);
+			} else {
+				DisableArrow (tracked);
+			}
 		}
 	}
 
 	public void UpdateTrackStatus(Tracked go) {
 		if (go.IsOnCamera) {
-			visibleObjects.Add (go);
-			invisibleObjects.Remove (go);
-
-			DisableArrow (go);
+			onCameraObjects.Add (go);
+			offCameraObjects.Remove (go);
 		} else {
-			visibleObjects.Remove (go);
-			invisibleObjects.Add(go);
-
-			EnableArrow (go);
+			onCameraObjects.Remove (go);
+			offCameraObjects.Add(go);
 		}
 	}
 
 	public void StopTracking(Tracked go) {
 		DisableArrow (go);
-		visibleObjects.Remove (go);
-		invisibleObjects.Remove (go);
+		onCameraObjects.Remove (go);
+		offCameraObjects.Remove (go);
 		if (go.ArrowImage != null) {
 			Destroy (go.ArrowImage);
 		}

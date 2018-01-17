@@ -72,6 +72,7 @@ public class Bullet : MonoBehaviour {
 	}
 
 	void DestroyThis () {
+		SendMessage ("Explode", SendMessageOptions.DontRequireReceiver);
 		Destroy (gameObject);
 		isDestroyed = true;
 	}

@@ -87,7 +87,7 @@ public class Shooter : MonoBehaviour {
 			Debug.DrawRay (shootTransform.position, dir);
 
 			// rotate toward target
-			RotateTowardTarget();
+			rotationTransform.RotateTowardTarget(currentTarget, turnSpeed);
 
 			// keep shooting
 			var delay = Time.time - lastShotTime;
@@ -97,28 +97,6 @@ public class Shooter : MonoBehaviour {
 			}
 			ShootAt (currentTarget);
 		}
-	}
-
-	Quaternion GetRotationToward(Vector3 target) {
-		Vector3 dir = target - rotationTransform.position;
-		return GetRotationFromDirection(dir);
-	}
-
-	static Quaternion GetRotationFromDirection(Vector3 dir) {
-		var angle = Mathf.Atan2 (dir.x, dir.z) * Mathf.Rad2Deg;
-		return Quaternion.AngleAxis(angle, Vector3.up);
-	}
-
-	void RotateTowardTarget() {
-		var rigidbody = GetComponent<Rigidbody> ();
-		if (rigidbody != null && (rigidbody.constraints & RigidbodyConstraints.FreezePositionY) != 0) {
-			// don't rotate if rotation has been constrained
-			return;
-		}
-
-		//transform.LookAt ();
-		var targetRotation = GetRotationToward(currentTarget);
-		rotationTransform.rotation = Quaternion.RotateTowards(rotationTransform.rotation, targetRotation, Time.deltaTime * turnSpeed);
 	}
 
 	public void ShootAt(Transform t) {
@@ -159,7 +137,7 @@ public class Shooter : MonoBehaviour {
 		// create a new bullet (make sure, it's on same height as target)
 		var pos = shootTransform.position;
 		pos.y = currentTarget.y;
-		var bullet = (Bullet)Instantiate(weapon.bulletPrefab, pos, GetRotationFromDirection(dir));
+		var bullet = (Bullet)Instantiate(weapon.bulletPrefab, pos, shootTransform.GetRotationFromDirection(dir));
 
 		// set bullet faction
 		FactionManager.SetFaction (bullet.gameObject, gameObject);
@@ -172,6 +150,12 @@ public class Shooter : MonoBehaviour {
 		// set velocity
 		var rigidbody = bullet.GetComponent<Rigidbody> ();
 		rigidbody.velocity = dir * weapon.bulletSpeed;
+
+		var seeker = bullet.GetComponent<HeatSeeker> ();
+		var attacker = GetComponent<Attacker>();
+		if (attacker && seeker && attacker.CurrentTarget) {
+			seeker.target = attacker.CurrentTarget;
+		}
 	}
 
 	void OnDeath(DamageInfo damageInfo) {

@@ -3,9 +3,10 @@ using System.Collections;
 using UnityEngine.AI;
 
 public class Shooter : MonoBehaviour {
+	public bool alwaysShoot = false;
+	public Transform shootTransform;
 	public WeaponConfig weapon = new WeaponConfig();
 	public float turnSpeed = 1000.0f;
-	public Transform shootTransform;
 
 	Vector3 currentTarget;
 	float lastShotTime;
@@ -67,13 +68,15 @@ public class Shooter : MonoBehaviour {
 			shootTransform = transform;
 		}
 		isAttacking = false;
+
+		currentTarget = shootTransform.position + shootTransform.forward;
 	}
 
 	void Update() {
-		if (isAttacking) {
+		if (isAttacking || alwaysShoot) {
 			// some debug stuff
-			var dir = currentTarget - transform.position;
-			Debug.DrawRay (transform.position, dir);
+			var dir = currentTarget - shootTransform.position;
+			Debug.DrawRay (shootTransform.position, dir);
 
 			// rotate toward target
 			RotateTowardTarget();
@@ -146,7 +149,7 @@ public class Shooter : MonoBehaviour {
 
 	void ShootBullet(Vector3 dir) {
 		// create a new bullet (make sure, it's on same height as target)
-		var pos = transform.position;
+		var pos = shootTransform.position;
 		pos.y = currentTarget.y;
 		var bullet = (Bullet)Instantiate(weapon.bulletPrefab, pos, GetRotationFromDirection(dir));
 

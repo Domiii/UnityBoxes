@@ -45,6 +45,13 @@ public class Shooter : MonoBehaviour {
 		//lastShotTime = Time.time;
 	}
 
+	void Reset() {
+		var agent = GetComponent<NavMeshAgent> ();
+		if (agent != null) {
+			turnSpeed = agent.angularSpeed;
+		}
+	}
+
 	// Use this for initialization
 	void Awake () {
 		if (weapon == null) {
@@ -99,10 +106,6 @@ public class Shooter : MonoBehaviour {
 		}
 
 		//transform.LookAt ();
-		var agent = GetComponent<NavMeshAgent> ();
-		if (agent != null) {
-			turnSpeed = agent.angularSpeed;
-		}
 		var targetRotation = GetRotationToward(currentTarget);
 		shootTransform.rotation = Quaternion.RotateTowards(shootTransform.rotation, targetRotation, Time.deltaTime * turnSpeed);
 	}
@@ -116,7 +119,8 @@ public class Shooter : MonoBehaviour {
 			return;
 		}
 
-		var dir = target - transform.position;
+		//var dir = target - transform.position;
+		var dir = shootTransform.forward;
 		dir.y = 0;
 		dir.Normalize ();
 		if (weapon.bulletCount > 1) {

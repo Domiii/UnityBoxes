@@ -5,14 +5,14 @@ using System.Collections;
 /// Automatically attacks nearby enemies, using a Shooter component.
 /// </summary>
 [RequireComponent (typeof(Shooter))]
-[RequireComponent(typeof(AttackTargetFinder))]
+[RequireComponent(typeof(TargetFinder))]
 public class Attacker : MonoBehaviour {
 	public float attackRadius = 10.0f;
 	public bool attackOnSight = true;
 
 	Living currentTarget;
 	Shooter shooter;
-	AttackTargetFinder targetFinder;
+	TargetFinder targetFinder;
 
 	void Awake () {
 		shooter = GetComponent<Shooter> ();
@@ -55,21 +55,7 @@ public class Attacker : MonoBehaviour {
 	}
 
 	public bool IsInRange (Living target) {
-		var collider = target.GetComponent<Collider> ();
-		if (!collider) {
-			collider = target.GetComponentInChildren<Collider> ();
-		}
-
-		Vector3 targetPos;
-		if (collider != null) {
-			targetPos = collider.ClosestPointOnBounds (transform.position);
-		} else {
-			targetPos = target.transform.position;
-		}
-
-		var distSq = (targetPos - transform.position).sqrMagnitude;
-		//print (Vector3.Distance(targetPos, transform.position));
-		return distSq <= attackRadius * attackRadius;
+		return targetFinder.IsInRange (target, attackRadius);
 	}
 
 	public bool CanAttack (Living target) {

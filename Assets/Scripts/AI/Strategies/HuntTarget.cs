@@ -54,6 +54,7 @@ namespace Strategies {
 			}
 			else if (hadValidTarget) {
 				// we have no more valid target anymore (target might have died, disappeared, turned etc) -> done!
+				hadValidTarget = false;
 				StartOtherStrategies();
 			}
 		}

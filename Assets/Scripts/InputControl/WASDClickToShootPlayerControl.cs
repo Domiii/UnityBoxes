@@ -3,9 +3,12 @@ using System.Collections;
 using UnityEngine.AI;
 
 public class WASDClickToShootPlayerControl : PlayerControlBase {
-	public float speed = 8;
+	public float moveSpeed = 8;
+	public float turnSpeed = 180;
+
 	bool mouseDown;
 	Plane testPlane;
+
 
 	public bool IsOnNavMesh(out NavMeshHit hit) {
 		return NavMesh.Raycast (transform.position, transform.position + Vector3.down * 100, out hit, NavMesh.AllAreas);
@@ -14,14 +17,50 @@ public class WASDClickToShootPlayerControl : PlayerControlBase {
 	void Start() {
 		// create a plane at 0,0,0 whose normal points to +Y
 		testPlane = new Plane ();
+		var shooter = GetComponent<Shooter> ();
+		if (shooter) {
+			turnSpeed = shooter.turnSpeed;
+		}
 	}
 
-	void Update() {
+	void Update () {
+		// get input in Update()
 		CheckClick ();
 	}
 
-	void FixedUpdate() {
+	void FixedUpdate () {
+		// update physics in FixedUpdate()
+
 		Move ();
+		UpdateDirection ();
+	}
+
+	Transform GetTransform() {
+		if (GetComponent<Shooter> ()) {
+			return GetComponent<Shooter> ().transform;
+		}
+		return transform;
+	}
+
+	Quaternion GetRotationToward(Vector3 target) {
+		Vector3 dir = target - GetTransform().position;
+		return GetRotationFromDirection(dir);
+	}
+
+	Quaternion GetRotationFromDirection(Vector3 dir) {
+		var angle = Mathf.Atan2 (dir.x, dir.z) * Mathf.Rad2Deg;
+		return Quaternion.AngleAxis(angle, Vector3.up);
+	}
+
+
+	void UpdateDirection () {
+		// rotate
+		Vector3 target;
+		if (GetMouseWorldPos (out target)) {
+			var targetRotation = GetRotationToward (target);
+			var t = GetTransform ();
+			t.rotation = Quaternion.RotateTowards (t.rotation, targetRotation, Time.deltaTime * turnSpeed);
+		}
 	}
 
 	void Move() {
@@ -35,7 +74,7 @@ public class WASDClickToShootPlayerControl : PlayerControlBase {
 		delta.z = Input.GetAxis("Vertical");
 		delta.Normalize ();
 
-		transform.position = transform.position + delta * speed * Time.fixedDeltaTime;
+		transform.position = transform.position + delta * moveSpeed * Time.fixedDeltaTime;
 	}
 
 	void PlaceOnNavMesh() {
@@ -69,14 +108,23 @@ public class WASDClickToShootPlayerControl : PlayerControlBase {
 		} 
 	}
 
-	void HandleMouse(bool clicked) {
+	bool GetMouseWorldPos(out Vector3 v) {
 		// see: http://answers.unity3d.com/questions/269760/ray-finding-out-x-and-z-coordinates-where-it-inter.html
 		// cast ray onto plane that goes through our current position and normal points upward
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		testPlane.SetNormalAndPosition (Vector3.up, transform.position);
 		float distance; 
-		if (testPlane.Raycast(ray, out distance)){
-			var target = ray.GetPoint(distance);
+		if (testPlane.Raycast (ray, out distance)) {
+			v = ray.GetPoint (distance);
+			return true;
+		}
+		v = Vector3.zero;
+		return false;
+	}
+
+	void HandleMouse(bool clicked) {
+		Vector3 target;
+		if (GetMouseWorldPos(out target)) {
 			NextAction = new Strategies.ShootInDirectionAction {
 				destination = target
 			};

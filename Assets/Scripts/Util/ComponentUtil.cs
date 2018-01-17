@@ -1,6 +1,7 @@
 ﻿
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class ComponentUtil {
@@ -17,5 +18,19 @@ public static class ComponentUtil {
 			field.SetValue(copy, field.GetValue(original));
 		}
 		return copy as T;
+	}
+
+	public static void ForEachComponentInHierarchy<C>(this Transform target, System.Action<C> action, int depth = 0) 
+		where C : Component
+	{
+		var c = target.GetComponent<C> ();
+		if (c) {
+			action (c);
+		}
+
+		// recurse
+		foreach (var child in target) {
+			ForEachComponentInHierarchy ((Transform)child, action, depth+1);
+		}
 	}
 }

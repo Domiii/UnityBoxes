@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class Shooter : MonoBehaviour {
 	public bool alwaysShoot = false;
 	public Transform shootTransform;
+	public Transform rotationTransform;
 	public WeaponConfig weapon = new WeaponConfig();
 	public float turnSpeed = 1000.0f;
 
@@ -65,7 +66,14 @@ public class Shooter : MonoBehaviour {
 		}
 
 		if (shootTransform == null) {
-			shootTransform = transform;
+			if (rotationTransform == null) {
+				shootTransform = transform;
+			} else {
+				shootTransform = rotationTransform;
+			}
+		}
+		if (rotationTransform == null) {
+			rotationTransform = shootTransform;
 		}
 		isAttacking = false;
 
@@ -92,11 +100,11 @@ public class Shooter : MonoBehaviour {
 	}
 
 	Quaternion GetRotationToward(Vector3 target) {
-		Vector3 dir = target - shootTransform.position;
+		Vector3 dir = target - rotationTransform.position;
 		return GetRotationFromDirection(dir);
 	}
 
-	Quaternion GetRotationFromDirection(Vector3 dir) {
+	static Quaternion GetRotationFromDirection(Vector3 dir) {
 		var angle = Mathf.Atan2 (dir.x, dir.z) * Mathf.Rad2Deg;
 		return Quaternion.AngleAxis(angle, Vector3.up);
 	}
@@ -110,7 +118,7 @@ public class Shooter : MonoBehaviour {
 
 		//transform.LookAt ();
 		var targetRotation = GetRotationToward(currentTarget);
-		shootTransform.rotation = Quaternion.RotateTowards(shootTransform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+		rotationTransform.rotation = Quaternion.RotateTowards(rotationTransform.rotation, targetRotation, Time.deltaTime * turnSpeed);
 	}
 
 	public void ShootAt(Transform t) {

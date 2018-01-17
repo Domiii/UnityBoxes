@@ -37,7 +37,7 @@ public class WASDClickToShootPlayerControl : PlayerControlBase {
 
 	Transform GetTransform() {
 		if (GetComponent<Shooter> ()) {
-			return GetComponent<Shooter> ().transform;
+			return GetComponent<Shooter> ().rotationTransform;
 		}
 		return transform;
 	}

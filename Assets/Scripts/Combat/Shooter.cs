@@ -91,8 +91,8 @@ public class Shooter : MonoBehaviour {
 
 			// keep shooting
 			var delay = Time.time - lastShotTime;
-			if (delay < weapon.attackDelay) {
-				// still on cooldown
+			if (delay < weapon.attackDelay || !rotationTransform.IsLookingAt(currentTarget)) {
+				// still on cooldown or not looking at target
 				return;
 			}
 			ShootAt (currentTarget);
@@ -151,6 +151,7 @@ public class Shooter : MonoBehaviour {
 		var rigidbody = bullet.GetComponent<Rigidbody> ();
 		rigidbody.velocity = dir * weapon.bulletSpeed;
 
+		// special treatment for Seekers
 		var seeker = bullet.GetComponent<HeatSeeker> ();
 		var attacker = GetComponent<Attacker>();
 		if (attacker && seeker && attacker.CurrentTarget) {

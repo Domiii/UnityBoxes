@@ -30,4 +30,22 @@ public static class RotationUtil {
 		var targetRotation = transform.GetRotationToward(target);
 		transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
 	}
+
+	/// <summary>
+	/// Values for cosTolerance (you can get these values by googling: "acos(1-cosTolerance) in degrees"):
+	/// 
+	/// 0 -> looking exactly at target
+	/// 0.1 -> 26 deg (half-angle of cone)
+	/// 0.2 -> 37 deg
+	/// 0.3 -> 46 deg
+	/// ...
+	/// 1 (or more) -> 180 deg (always true)
+	/// 
+	/// </summary>
+	public static bool IsLookingAt(this Transform transform, Vector3 target, float cosTolerance = 0.1f) {
+		Vector3 dirFromAtoB = (target - transform.position).normalized;
+		float dotProd = Vector3.Dot(dirFromAtoB, transform.forward);
+
+		return dotProd >= 1-cosTolerance;
+	}
 }

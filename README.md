@@ -9,12 +9,15 @@
 
 
 ## Features
-* Fixed top-down view
-* Fun with emitting materials
 * Move-n-shoot
+* Top-down view
+* Fun with emitting materials
 * Healthbars
-* A few simply enemy "boxes"
 * A simple rule-based AI framework
 * Arrow-tracking of off-screen enemies
 * Dynamic LevelManager
 * Saves level progress automatically
+* A few simply enemy "boxes"
+* Boss
+* Friendly Ai
+* Seeker missiles
